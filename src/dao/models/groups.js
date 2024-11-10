@@ -19,12 +19,19 @@ schema.pre( 'deleteMany', async function ( next ) {
     // Remove Cloudinary images
     const toRemove = await mongoose.model ( 'tags' ).find( { group: id } )
     toRemove.forEach( tag => tag?.image && removeImage( tag.image ) )
+    
+    // Notes: Mongoose hooks can't chain other models hooks. You have to do it manually
+    // Remove those associated tags from the characters
+    const tagsIds = toRemove.map( tag => tag._id )
+    await mongoose.model( 'characters' ).updateMany( 
+        { 'tags.name': { $in: tagsIds } },
+        { $pull: { tags: { name: { $in: tagsIds } } } }
+    )
 
     // Remove the associated tags
     await mongoose.model( 'tags' ).deleteMany( { group: id } )
     next()
 })
-
 
 
 const groupsModel = mongoose.model( collection, schema )

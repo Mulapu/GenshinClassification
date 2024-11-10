@@ -1,5 +1,6 @@
 import BaseRouter from "./BaseRouter.js";
 import groupsManager from "../dao/managers/groupsManager.js";
+import tagsModel from "../dao/models/tags.js";
 
 class groupsRouter extends BaseRouter {
     init () {
@@ -18,6 +19,9 @@ class groupsRouter extends BaseRouter {
             res.sendSuccess( response )
         })
         this.delete( '/', async function ( req, res, next ) {
+            // const { groupName } = req.body 
+            // const id = ( await mongoose.model( 'groups' ).findOne( { name: groupName } ) )?._id // Get the group id
+            // await tagsModel.deleteMany( { group: id } ) // This does trigger the character's schema.pre
             const { groupName } = req.body;
         
             if ( !groupName ) return res.sendError( 'name is required to delete' )

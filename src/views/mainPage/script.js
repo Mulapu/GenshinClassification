@@ -60,9 +60,9 @@ characterCreate.addEventListener( 'click', async function ( e ) {
     // const obj1 = { 'tagName': 'ccc', 'tagDescription': 'ccc', 'group': 'test' }
     // await apiFetch( 'POST', 'tags', JSON.stringify( obj1 ) )
 
-    const obj2 = { 'character': 'Arlecchino', tag: 'bbb' }
-    await apiFetch( 'POST', 'characters', JSON.stringify( obj2 ) )
+    // const obj2 = { 'character': 'Arlecchino', 'tag': 'ccc' }
+    // await apiFetch( 'POST', 'characters', JSON.stringify( obj2 ) )
 
-    // const obj = { 'groupName': 'test' }
-    // apiFetch( 'DELETE', 'groups', JSON.stringify( obj ) )
+    const obj = { 'groupName': 'test' }
+    apiFetch( 'DELETE', 'groups', JSON.stringify( obj ) )
 })

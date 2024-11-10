@@ -29,8 +29,8 @@ const connection = mongoose.connect( config.mongoURL )
 
 app.use( '/tags', tagsRouter )
 app.use( '/characters', charactersRouter )
-app.use( '/', homeRouter )
 app.use( '/groups', groupsRouter )
+app.use( '/', homeRouter )
 
 
 app.listen( config.PORT, () => {
