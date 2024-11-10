@@ -9,10 +9,12 @@ const schema = new mongoose.Schema( {
     group: { type: mongoose.Schema.Types.ObjectId, ref: 'groups', required: true }
 })
 
-schema.pre( 'deleteMany', async function ( next ) { // Update and remove this tag associated to any character on remove.
+// Update and remove this tag associated to any character on remove.
+schema.pre( 'deleteMany', async function ( next ) {
     const tagName = this.getQuery().name; // Get the tag name 
     const id = ( await mongoose.model( 'tags' ).findOne( { name: tagName } ) )?._id // Get the tag id
 
+    // Remove the character tags
     id && await mongoose.model( 'characters' ).updateMany( 
         { 'tags.name': id }, // Search
         { $pull: { tags: { name: id } } } // Operation
