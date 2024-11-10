@@ -13,6 +13,9 @@ class homeRouter extends BaseRouter {
         this.get( '/code', function ( req, res, next ) {
             res.render( 'mainPage/index.ejs' )
         })
+        this.get( '/download', function ( req, res, next ) {
+            res.render( 'download/index.ejs' )
+        })
     }
 }
 
