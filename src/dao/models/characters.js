@@ -8,11 +8,11 @@ const schema = new mongoose.Schema( {
         name: { type: mongoose.Schema.Types.ObjectId, ref: 'tags' },
         value: { type: Number, default: null },
         description: { type: String },
-        constellation:  { 
+        constellation:  { // Must be 0-6
             type: Number, 
             default: 0, 
-            set: ( value ) => ( value === null ? 0 : value ) 
-        } // Must be 0-6
+            required: true
+        } 
     }) ]
 })
 
