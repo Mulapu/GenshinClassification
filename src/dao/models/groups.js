@@ -24,8 +24,8 @@ schema.pre( 'deleteMany', async function ( next ) {
     // Remove those associated tags from the characters
     const tagsIds = toRemove.map( tag => tag._id )
     await mongoose.model( 'characters' ).updateMany( 
-        { 'tags.name': { $in: tagsIds } },
-        { $pull: { tags: { name: { $in: tagsIds } } } }
+        { 'tags.info': { $in: tagsIds } }, // tags.info it's the populated property
+        { $pull: { tags: { info: { $in: tagsIds } } } }
     )
 
     // Remove the associated tags

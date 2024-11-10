@@ -6,10 +6,10 @@ let manager = persistenceFactory( charactersModel )
 
 class charactersManager extends manager {
     getCharacters () {
-        return this.get().populate( 'tags.name' ).lean() // The property inside the object you want to populate, in this case the name
+        return this.get().populate( 'tags.info' ).lean() // The property inside the object you want to populate, in this case the name
     }
     findCharacter ( name ) { // internal function
-        return this.getBy( { name } ).populate( 'tags.name' )
+        return this.getBy( { name } ).populate( 'tags.info' )
     }
     createCharacter ( name ) { // internal function
         return this.create( { name } )
@@ -24,7 +24,7 @@ class charactersManager extends manager {
             characterQuery = await this.findCharacter( character )
         }
 
-        characterQuery.tags.push( { name: tagInfo._id, value, description, constellation } )
+        characterQuery.tags.push( { info: tagInfo._id, value, description, constellation } )
         return await characterQuery.save();
     }
     async removeTag ( character, tag ) { // Remove a tag of a character // This deletes all tags with the same name
@@ -33,9 +33,10 @@ class charactersManager extends manager {
 
         if ( !tagInfo ) return 'Tag not found'
         if ( !characterQuery ) return 'Character not found'
-        if ( !characterQuery?.tags.some( tagObj => tagObj.name.name == tag ) ) return 'Tag not found in the character' // tagObj.name.name, double name because name is populated
+        if ( !characterQuery?.tags.some( tagObj => tagObj.info.name == tag ) ) return 'Tag not found in the character' // tagObj.info is populated
 
-        characterQuery.tags = characterQuery.tags.filter( tag => tag.name?._id.toString() !== tagInfo._id.toString() ) // Both are ObjectId
+        // Remove the tag
+        characterQuery.tags = characterQuery.tags.filter( tag => tag.info?._id.toString() !== tagInfo._id.toString() ) // Both are ObjectId
         return await characterQuery.save()
     }
 }

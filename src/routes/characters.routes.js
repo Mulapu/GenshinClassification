@@ -12,7 +12,7 @@ class charactersRouter extends BaseRouter {
             const doesExist = await charactersManager.findCharacter( character )
 
             if ( !character || !tag ) return res.sendError( 'All fields are required' )
-            if ( doesExist?.tags?.some( tagObj => tagObj?.name?.name === tag ) ) return res.sendError ( 'A tag with the same name is already on the character' )
+            if ( doesExist?.tags?.some( tagObj => tagObj?.info?.name === tag ) ) return res.sendError ( 'A tag with the same name is already on the character' )
 
             let response = await charactersManager.insertTag( character, tag, value, description, constellation )
             

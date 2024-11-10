@@ -16,8 +16,8 @@ schema.pre( 'deleteMany', async function ( next ) {
 
     // Remove the character tags
     id && await mongoose.model( 'characters' ).updateMany( 
-        { 'tags.name': id }, // Search
-        { $pull: { tags: { name: id } } } // Operation
+        { 'tags.info': id }, // Search // tags.info it's the populated property
+        { $pull: { tags: { info: id } } } // Operation
     )
     next ()
 })
