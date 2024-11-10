@@ -9,8 +9,10 @@ class groupsRouter extends BaseRouter {
         })
         this.post( '/', async function ( req, res, next ) {
             const { groupName } = req.body; // Get the data
+            const doesExist = await groupsManager.findGroup( groupName )
 
             if ( !groupName ) return res.sendError( 'Name is required to create' ) // Check if it exists
+            if ( doesExist ) return res.sendError( 'Already exist a group with the same name' )
 
             const response = await groupsManager.createGroup( groupName )
             res.sendSuccess( response )

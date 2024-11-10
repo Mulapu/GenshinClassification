@@ -32,7 +32,7 @@ remove.addEventListener( 'click', function ( e ) {
 
 let characterCreate = document.getElementsByClassName( 'characterCreate' )[0]
 
-characterCreate.addEventListener( 'click', function ( e ) {
+characterCreate.addEventListener( 'click', async function ( e ) {
     e.preventDefault()
 
     async function apiFetch ( method, endpoint, data ) {
@@ -53,10 +53,16 @@ characterCreate.addEventListener( 'click', function ( e ) {
     // Insertar los datos directamente en el FormData
     // const dataForm = new FormData()
     // dataForm.append( 'tagName', 'asdfasd' )
-    const obj = {
-        'character': 'Arlecchino',
-        'tag': 'test'
-    }
-    
-    apiFetch( 'DELETE', 'characters', JSON.stringify( obj ) )
+
+    // const obj = { 'groupName': 'test' }
+    // await apiFetch( 'POST', 'groups', JSON.stringify( obj ) )
+
+    // const obj1 = { 'tagName': 'ccc', 'tagDescription': 'ccc', 'group': 'test' }
+    // await apiFetch( 'POST', 'tags', JSON.stringify( obj1 ) )
+
+    const obj2 = { 'character': 'Arlecchino', tag: 'bbb' }
+    await apiFetch( 'POST', 'characters', JSON.stringify( obj2 ) )
+
+    // const obj = { 'groupName': 'test' }
+    // apiFetch( 'DELETE', 'groups', JSON.stringify( obj ) )
 })

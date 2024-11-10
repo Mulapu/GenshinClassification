@@ -14,14 +14,14 @@ class tagsManager extends manager {
     async createTag ( name, image, description, group ) { // Create tag
         let groupInfo = await groupsManager.findGroup( group )
 
-        if ( !groupInfo ) return 'Enter a valid group'
+        if ( !groupInfo ) return 'Enter a valid group to create'
 
         return this.create ( { name, image, description, group: groupInfo._id } )
     }
     async removeTag ( name ) { // Remove tag by name
         let tagInfo = await this.findTag( name )
 
-        if ( !tagInfo ) return 'Enter a valid tag'
+        if ( !tagInfo ) return 'Enter a valid tag to remove'
 
         return this.delete( { name } )
     }

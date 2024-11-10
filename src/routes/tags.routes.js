@@ -12,9 +12,11 @@ class tagsRouter extends BaseRouter {
         })
         this.post ( '/', multer.single( 'image' ), async function( req, res, next ) {
             const { tagName, tagDescription, group } = { ...req.body }; // Get the data
+            const doesExist = await tagsManager.findTag( tagName )
 
             if ( !tagName || !tagDescription || !group ) return res.sendError( 'Name, Description or Group is required to create' ) // Check if it exists
-            
+            if ( doesExist ) return res.sendError( 'Already exist a tag with the same name' )
+
             const imageUrl = await ( async function () {
                 if ( !req?.file?.buffer ) return null
                 const imageBuffer = req?.file?.buffer
@@ -29,7 +31,7 @@ class tagsRouter extends BaseRouter {
         })
         this.delete( '/', async function ( req, res, next ) {
             const { tagName } = req.body // Get the tag name
-            const imageUrl = ( await tagsManager.findTag( tagName ) ).image // This returns the entire object
+            const imageUrl = ( await tagsManager.findTag( tagName ) )?.image // This returns the entire object
 
             if ( !tagName ) return res.sendError( 'Name is required to remove' ) // Check if it exists
             

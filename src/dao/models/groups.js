@@ -9,8 +9,11 @@ const schema = new mongoose.Schema( {
     }
 })
 
-schema.pre( 'remove', async function ( next ) { // Remove every tag associated to this group on remove.
-    await mongoose.model( 'tag' ).deleteMany( { group: this._id } )
+schema.pre( 'deleteOne', async function ( next ) { // Remove every tag associated to this group on remove.
+    const groupName = this.getQuery().name; // Get the group name 
+    const id = ( await mongoose.model( 'groups' ).findOne( { name: groupName } ) )?._id // Get the group id
+    
+    id && await mongoose.model( 'tags' ).deleteMany( { group: id } )
     next()
 })
 
