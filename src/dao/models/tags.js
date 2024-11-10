@@ -9,7 +9,7 @@ const schema = new mongoose.Schema( {
     group: { type: mongoose.Schema.Types.ObjectId, ref: 'groups', required: true }
 })
 
-schema.pre( 'deleteOne', async function ( next ) { // Update and remove this tag associated to any character on remove.
+schema.pre( 'deleteMany', async function ( next ) { // Update and remove this tag associated to any character on remove.
     const tagName = this.getQuery().name; // Get the tag name 
     const id = ( await mongoose.model( 'tags' ).findOne( { name: tagName } ) )?._id // Get the tag id
 

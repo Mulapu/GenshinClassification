@@ -10,7 +10,7 @@ export default function mongoManager ( model ) {
             return model.create( data )
         }
         delete ( query ) {
-            return model.deleteOne( query )
+            return model.deleteMany( query )
         }
     }
 }

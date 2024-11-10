@@ -12,7 +12,10 @@ async function uploadImage ( buffer ) {
     });
 }
 
-async function removeImage ( id ) {
+async function removeImage ( url ) {
+    const regex = /([^/]+)(?=\.png$)/
+    const imageId = url.match ( regex )[0]
+    
     return await cloudinary.api.delete_resources( [ id ], 
         { type: 'upload', resource_type: 'image' }
     )

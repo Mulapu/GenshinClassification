@@ -9,7 +9,7 @@ const schema = new mongoose.Schema( {
     }
 })
 
-schema.pre( 'deleteOne', async function ( next ) { // Remove every tag associated to this group on remove.
+schema.pre( 'deleteMany', async function ( next ) { // Remove every tag associated to this group on remove.
     const groupName = this.getQuery().name; // Get the group name 
     const id = ( await mongoose.model( 'groups' ).findOne( { name: groupName } ) )?._id // Get the group id
     

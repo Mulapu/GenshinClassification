@@ -15,7 +15,7 @@ class tagsRouter extends BaseRouter {
             const doesExist = await tagsManager.findTag( tagName )
 
             if ( !tagName || !tagDescription || !group ) return res.sendError( 'Name, Description or Group is required to create' ) // Check if it exists
-            if ( doesExist ) return res.sendError( 'Already exist a tag with the same name' )
+            if ( doesExist ) return res.sendError( 'Already exists a tag with the same name' )
 
             const imageUrl = await ( async function () {
                 if ( !req?.file?.buffer ) return null
@@ -38,11 +38,7 @@ class tagsRouter extends BaseRouter {
             const response = await tagsManager.removeTag( tagName )
             if ( typeof response !== 'object' ) return res.sendError( response ) // Error response
 
-            if ( imageUrl ) { // Remove the image if it exists
-                const regex = /([^/]+)(?=\.png$)/
-                const imageId = imageUrl.match ( regex )[0]
-                const response = await removeImage( imageId )
-            }
+            if ( imageUrl ) removeImage( imageUrl ) // Remove image if exists
             res.sendSuccess( response )
         })
     }

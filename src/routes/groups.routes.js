@@ -12,7 +12,7 @@ class groupsRouter extends BaseRouter {
             const doesExist = await groupsManager.findGroup( groupName )
 
             if ( !groupName ) return res.sendError( 'Name is required to create' ) // Check if it exists
-            if ( doesExist ) return res.sendError( 'Already exist a group with the same name' )
+            if ( doesExist ) return res.sendError( 'Already exists a group with the same name' )
 
             const response = await groupsManager.createGroup( groupName )
             res.sendSuccess( response )
