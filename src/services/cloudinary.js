@@ -13,8 +13,9 @@ async function uploadImage ( buffer ) {
 }
 
 async function removeImage ( url ) {
-    const regex = /([^/]+)(?=\.png$)/
-    const imageId = url.match ( regex )[0]
+    const regex = /([^./]+)(?=\.[^.]*$)/ // Get the string that is before the last dot.
+    let imageId = url.match( regex )?.[0]
+    if ( !imageId ) return
     
     return await cloudinary.api.delete_resources( [ imageId ], 
         { type: 'upload', resource_type: 'image' }

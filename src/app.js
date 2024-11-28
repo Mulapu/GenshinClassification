@@ -17,7 +17,12 @@ const app = express()
 app.use( express.json() );
 app.use( bodyParser.text() )
 app.use( express.urlencoded( { extended: true } ) )
-app.use( cors() )
+const corsOptions = {
+    origin: '*', // Permite todos los orígenes
+    methods: [ 'GET', 'POST', 'PUT', 'DELETE' ],
+    allowedHeaders: [ 'Content-Type', 'Authorization' ]
+};
+app.use( cors( corsOptions ) )
 
 
 // No express.static() for public files
