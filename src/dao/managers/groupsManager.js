@@ -16,6 +16,14 @@ class groupsManager extends manager {
     removeGroup ( name ) {
         return this.delete( { name } )
     }
+    async renameGroup( obj ) { // Obj contain: groupName, newGroupName
+        const group = await this.findGroup( obj.groupName );
+
+        if ( !group ) return 'Must provide a valid group name to rename. Group not found'
+
+        const request = await this.update( group._id, { $set: { name: obj.newGroupName } } )
+        return request
+    }
 }
 
 export default new groupsManager()

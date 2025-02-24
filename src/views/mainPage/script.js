@@ -2,37 +2,7 @@ let create = document.getElementsByClassName( 'create' )[0]
 let image = document.getElementsByClassName( 'image' )[0]
 let remove = document.getElementsByClassName( 'remove' )[0]
 
-create.addEventListener( 'click', function ( e ) {
-    e.preventDefault()
-
-    const formData = new FormData();
-    formData.append( 'tagName', 'aaa' );
-    formData.append( 'tagDescription', 'bbb' );
-    formData.append( 'image', image.files[0] )
-
-    fetch( '/tags', {
-        method: 'POST',
-        body: formData // Convierte el objeto a una cadena JSON
-    }).then( e => e.json() )
-    .then( e => console.log( e ) );
-})
-
-remove.addEventListener( 'click', function ( e ) {
-    e.preventDefault()
-
-    fetch( '/tags', {
-        method: 'DELETE',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify( { tagName: 'aaa' } )
-    }).then( e => e.json() )
-    .then( e => console.log( e ) )
-})
-
-let characterCreate = document.getElementsByClassName( 'characterCreate' )[0]
-
-characterCreate.addEventListener( 'click', async function ( e ) {
+create.addEventListener( 'click', async function ( e ) {
     e.preventDefault()
 
     async function apiFetch ( method, endpoint, data ) {
@@ -49,20 +19,25 @@ characterCreate.addEventListener( 'click', async function ( e ) {
         } )
     }
 
+    const json = JSON.stringify( { tagName: 'aa', newTagName: 'aaa' } )
+
+    const data = await apiFetch( 'POST', 'tags/rename', json )
+
+    console.log( data )
 
     // Insertar los datos directamente en el FormData
     // const dataForm = new FormData()
     // dataForm.append( 'tagName', 'asdfasd' )
 
-    // const obj = { 'groupName': 'test' }
+    // const obj = { 'groupName': 'test3' }
     // await apiFetch( 'POST', 'groups', JSON.stringify( obj ) )
 
-    // const obj1 = { 'tagName': 'ccc', 'tagDescription': 'ccc', 'group': 'test' }
+    // const obj1 = { 'tagName': 'lll', 'tagDescription': 'aaa', 'group': 'test3' }
     // await apiFetch( 'POST', 'tags', JSON.stringify( obj1 ) )
 
     // const obj2 = { 'character': 'Arlecchino', 'tag': 'ccc' }
     // await apiFetch( 'POST', 'characters', JSON.stringify( obj2 ) )
 
-    const obj = { 'groupName': 'test' }
-    apiFetch( 'DELETE', 'groups', JSON.stringify( obj ) )
+    // const obj = { 'groupName': 'test' }
+    // apiFetch( 'DELETE', 'groups', JSON.stringify( obj ) )
 })

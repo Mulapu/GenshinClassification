@@ -10,7 +10,7 @@ class homeRouter extends BaseRouter {
 
             res.sendSuccess( { tags, characters } )
         })
-        this.get( '/code', function ( req, res, next ) {
+        this.get( '/mainPage', function ( req, res, next ) {
             res.render( 'mainPage/index.ejs' )
         })
         this.get( '/download', function ( req, res, next ) {

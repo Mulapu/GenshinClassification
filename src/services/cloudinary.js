@@ -17,9 +17,11 @@ async function removeImage ( url ) {
     let imageId = url.match( regex )?.[0]
     if ( !imageId ) return
     
-    return await cloudinary.api.delete_resources( [ imageId ], 
+    const remove = await cloudinary.api.delete_resources( [ imageId ], 
         { type: 'upload', resource_type: 'image' }
-    )
+    );
+    console.log( remove )
+    return remove
 }
 
 export { uploadImage, removeImage }

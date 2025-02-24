@@ -12,37 +12,52 @@ class tagsRouter extends BaseRouter {
         })
         this.post ( '/', multer.single( 'image' ), async function( req, res, next ) {
             const { tagName, tagDescription, group } = { ...req.body }; // Get the data
+            const imageBuffer = req?.file?.buffer || null
             const doesExist = await tagsManager.findTag( tagName )
 
-            if ( !tagName || !tagDescription || !group ) return res.sendError( 'Name, Description or Group is required to create' ) // Check if it exists
+            if ( !tagName || !tagDescription || !group ) return res.sendError( 'Name, Description and Group is required to create' ) // Check if it exists
             if ( doesExist ) return res.sendError( 'Already exists a tag with the same name' )
 
-                
-            const imageUrl = await ( async function () {
-                if ( !req?.file?.buffer ) return null
-                const imageBuffer = req?.file?.buffer
-                const image = await uploadImage ( imageBuffer )
-                return image.secure_url
-            })()
-
-            const response = await tagsManager.createTag( tagName, imageUrl, tagDescription, group ) // group contains the name of the group
+            const response = await tagsManager.createTag( {
+                name: tagName, 
+                imageBuffer, 
+                description: tagDescription, 
+                group // group contains the name of the group
+            } )
 
             if ( typeof response !== 'object' ) return res.sendError( response ) // Responses
             res.sendSuccess( response )
         })
         this.delete( '/', async function ( req, res, next ) {
             const { tagName } = req.body // Get the tag name
-            const imageUrl = ( await tagsManager.findTag( tagName ) )?.image // This returns the entire object
 
             if ( !tagName ) return res.sendError( 'Name is required to remove' ) // Check if it exists
-            
 
             const response = await tagsManager.removeTag( tagName )
             if ( typeof response !== 'object' ) return res.sendError( response ) // Error response
 
-            if ( imageUrl ) removeImage( imageUrl ) // Remove image if exists
             res.sendSuccess( response )
         })
+        this.post( '/move', async function ( req, res, next ) {
+            const { tagName, group } = req.body // Get the tag name
+            
+            if ( !tagName || !group ) return res.sendError( 'Tag name and new group name is required to move' )
+            
+            const request = await tagsManager.moveTag( { tagName, group } )
+            if ( typeof request !== 'object' ) return res.sendError( request )
+
+            res.sendSuccess( request )
+        })
+        this.post( '/rename', async function ( req, res, next ) {
+            const { tagName, newTagName } = req.body
+
+            if ( !tagName || !newTagName ) return res.sendError( 'Must provide tag name and new tag name to rename' )
+            
+            const request = await tagsManager.renameTag( { tagName, newTagName } )
+            if ( typeof request !== 'object' ) return res.sendError( request )
+
+            res.sendSuccess( request )
+        } )
     }
 }
 

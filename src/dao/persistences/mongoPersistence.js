@@ -12,5 +12,8 @@ export default function mongoManager ( model ) {
         delete ( query ) {
             return model.deleteMany( query )
         }
+        update ( id, query ) {
+            return model.findByIdAndUpdate( id, query )
+        }
     }
 }

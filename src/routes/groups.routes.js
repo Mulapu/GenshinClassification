@@ -29,6 +29,16 @@ class groupsRouter extends BaseRouter {
             const response = await groupsManager.removeGroup( groupName )
             res.sendSuccess( response )
         })
+        this.post( '/rename', async function ( req, res, next ) {
+            const { groupName, newGroupName } = req.body
+            const doesExist = await groupsManager.findGroup( groupName )
+
+            if( !groupName || !newGroupName ) return res.sendError( 'Must provide group name and new group name to rename' )
+            if ( !doesExist ) return res.sendError( "Must provide a valid group name to rename. Group not found" )
+            
+            const response = await groupsManager.renameGroup( { groupName, newGroupName } )
+            res.sendSuccess( response )
+        })
     }
 }
 
