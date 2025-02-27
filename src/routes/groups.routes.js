@@ -31,7 +31,7 @@ class groupsRouter extends BaseRouter {
         })
         this.post( '/rename', async function ( req, res, next ) {
             const { groupName, newGroupName } = req.body
-            const doesExist = await groupsManager.findGroup( groupName )
+            const doesExist = await groupsManager.findGroup( newGroupName )
 
             if( !groupName || !newGroupName ) return res.sendError( 'Must provide group name and new group name to rename' )
             if ( doesExist ) return res.sendError( 'Already exists a group with the same name' )
