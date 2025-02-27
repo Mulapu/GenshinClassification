@@ -50,10 +50,9 @@ class tagsRouter extends BaseRouter {
         })
         this.post( '/rename', async function ( req, res, next ) {
             const { tagName, newTagName } = req.body
-            const doesExist = await tagsManager.findTag( tagName )
+            const doesExist = await tagsManager.findTag( newTagName )
 
             if ( !tagName || !newTagName ) return res.sendError( 'Must provide tag name and new tag name to rename' )
-            console.log( doesExist )
             if ( doesExist ) return res.sendError( 'Already exists a tag with the same name' )
             
             const request = await tagsManager.renameTag( { tagName, newTagName } )
