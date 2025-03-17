@@ -65,7 +65,7 @@ class tagsRouter extends BaseRouter {
             const imageBuffer = req?.file?.buffer || null
             const doesExist = await tagsManager.findTag( newTagName )
 
-            if ( !tagName || !newTagName || !newTagDescription ) return res.sendError( 'Name, new Name and Description is required to modify' ) // Check if it exists
+            if ( !tagName /* || !newTagName || !newTagDescription */ ) return res.sendError( 'Current name is required to modify' ) // Check if it exists
             if ( doesExist ) return res.sendError( 'Already exists a tag with the same name' )
             
             const request = await tagsManager.modifyTag( { tagName, newTagName, newTagDescription, imageBuffer } )
